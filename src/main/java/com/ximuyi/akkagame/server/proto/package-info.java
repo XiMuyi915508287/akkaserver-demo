@@ -1,0 +1,1 @@
+package com.ximuyi.akkagame.server.proto;

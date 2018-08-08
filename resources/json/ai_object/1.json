@@ -1,0 +1,23 @@
+{
+	"root":{
+		"random":1000,
+		"children":[
+			{
+				"weight":100,
+				"type":"RandomMove"
+			},
+			{
+				"weight":100,
+				"type":"True"
+			},
+			{
+				"decorator":{
+					"type":"False"
+				},
+				"weight":100,
+				"type":"Decorator"
+			}
+		],
+		"type":"Selector"
+	}
+}

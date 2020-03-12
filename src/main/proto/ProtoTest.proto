@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.ximuyi.akkagame.server.proto;
+package com.ximuyi.game.server.proto;
 
 message TestRequest{
 }

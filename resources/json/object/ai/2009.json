@@ -1,0 +1,11 @@
+{
+	"root":{
+		"decorator":{
+			"decorator":{
+				"type":"FreeMove"
+			},
+			"type":"Decorator"
+		},
+		"type":"Decorator"
+	}
+}

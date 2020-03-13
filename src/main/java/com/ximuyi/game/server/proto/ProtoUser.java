@@ -19,25 +19,37 @@ public final class ProtoUser {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>sint64 userId = 1;</code>
+     * <code>int64 userId = 1;</code>
      * @return The userId.
      */
     long getUserId();
 
     /**
-     * <code>string password = 2;</code>
+     * <code>string account = 2;</code>
+     * @return The account.
+     */
+    java.lang.String getAccount();
+    /**
+     * <code>string account = 2;</code>
+     * @return The bytes for account.
+     */
+    com.google.protobuf.ByteString
+        getAccountBytes();
+
+    /**
+     * <code>string password = 3;</code>
      * @return The password.
      */
     java.lang.String getPassword();
     /**
-     * <code>string password = 2;</code>
+     * <code>string password = 3;</code>
      * @return The bytes for password.
      */
     com.google.protobuf.ByteString
         getPasswordBytes();
 
     /**
-     * <code>sint32 connectWay = 3;</code>
+     * <code>int32 connectWay = 4;</code>
      * @return The connectWay.
      */
     int getConnectWay();
@@ -55,6 +67,7 @@ public final class ProtoUser {
       super(builder);
     }
     private LoginRequest() {
+      account_ = "";
       password_ = "";
     }
 
@@ -90,18 +103,24 @@ public final class ProtoUser {
               break;
             case 8: {
 
-              userId_ = input.readSInt64();
+              userId_ = input.readInt64();
               break;
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
+              account_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
               password_ = s;
               break;
             }
-            case 24: {
+            case 32: {
 
-              connectWay_ = input.readSInt32();
+              connectWay_ = input.readInt32();
               break;
             }
             default: {
@@ -139,17 +158,53 @@ public final class ProtoUser {
     public static final int USERID_FIELD_NUMBER = 1;
     private long userId_;
     /**
-     * <code>sint64 userId = 1;</code>
+     * <code>int64 userId = 1;</code>
      * @return The userId.
      */
     public long getUserId() {
       return userId_;
     }
 
-    public static final int PASSWORD_FIELD_NUMBER = 2;
+    public static final int ACCOUNT_FIELD_NUMBER = 2;
+    private volatile java.lang.Object account_;
+    /**
+     * <code>string account = 2;</code>
+     * @return The account.
+     */
+    public java.lang.String getAccount() {
+      java.lang.Object ref = account_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        account_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string account = 2;</code>
+     * @return The bytes for account.
+     */
+    public com.google.protobuf.ByteString
+        getAccountBytes() {
+      java.lang.Object ref = account_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        account_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PASSWORD_FIELD_NUMBER = 3;
     private volatile java.lang.Object password_;
     /**
-     * <code>string password = 2;</code>
+     * <code>string password = 3;</code>
      * @return The password.
      */
     public java.lang.String getPassword() {
@@ -165,7 +220,7 @@ public final class ProtoUser {
       }
     }
     /**
-     * <code>string password = 2;</code>
+     * <code>string password = 3;</code>
      * @return The bytes for password.
      */
     public com.google.protobuf.ByteString
@@ -182,10 +237,10 @@ public final class ProtoUser {
       }
     }
 
-    public static final int CONNECTWAY_FIELD_NUMBER = 3;
+    public static final int CONNECTWAY_FIELD_NUMBER = 4;
     private int connectWay_;
     /**
-     * <code>sint32 connectWay = 3;</code>
+     * <code>int32 connectWay = 4;</code>
      * @return The connectWay.
      */
     public int getConnectWay() {
@@ -207,13 +262,16 @@ public final class ProtoUser {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (userId_ != 0L) {
-        output.writeSInt64(1, userId_);
+        output.writeInt64(1, userId_);
+      }
+      if (!getAccountBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, account_);
       }
       if (!getPasswordBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, password_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, password_);
       }
       if (connectWay_ != 0) {
-        output.writeSInt32(3, connectWay_);
+        output.writeInt32(4, connectWay_);
       }
       unknownFields.writeTo(output);
     }
@@ -226,14 +284,17 @@ public final class ProtoUser {
       size = 0;
       if (userId_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt64Size(1, userId_);
+          .computeInt64Size(1, userId_);
+      }
+      if (!getAccountBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, account_);
       }
       if (!getPasswordBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, password_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, password_);
       }
       if (connectWay_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(3, connectWay_);
+          .computeInt32Size(4, connectWay_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -252,6 +313,8 @@ public final class ProtoUser {
 
       if (getUserId()
           != other.getUserId()) return false;
+      if (!getAccount()
+          .equals(other.getAccount())) return false;
       if (!getPassword()
           .equals(other.getPassword())) return false;
       if (getConnectWay()
@@ -270,6 +333,8 @@ public final class ProtoUser {
       hash = (37 * hash) + USERID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getUserId());
+      hash = (37 * hash) + ACCOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getAccount().hashCode();
       hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
       hash = (53 * hash) + getPassword().hashCode();
       hash = (37 * hash) + CONNECTWAY_FIELD_NUMBER;
@@ -409,6 +474,8 @@ public final class ProtoUser {
         super.clear();
         userId_ = 0L;
 
+        account_ = "";
+
         password_ = "";
 
         connectWay_ = 0;
@@ -440,6 +507,7 @@ public final class ProtoUser {
       public com.ximuyi.game.server.proto.ProtoUser.LoginRequest buildPartial() {
         com.ximuyi.game.server.proto.ProtoUser.LoginRequest result = new com.ximuyi.game.server.proto.ProtoUser.LoginRequest(this);
         result.userId_ = userId_;
+        result.account_ = account_;
         result.password_ = password_;
         result.connectWay_ = connectWay_;
         onBuilt();
@@ -493,6 +561,10 @@ public final class ProtoUser {
         if (other.getUserId() != 0L) {
           setUserId(other.getUserId());
         }
+        if (!other.getAccount().isEmpty()) {
+          account_ = other.account_;
+          onChanged();
+        }
         if (!other.getPassword().isEmpty()) {
           password_ = other.password_;
           onChanged();
@@ -531,14 +603,14 @@ public final class ProtoUser {
 
       private long userId_ ;
       /**
-       * <code>sint64 userId = 1;</code>
+       * <code>int64 userId = 1;</code>
        * @return The userId.
        */
       public long getUserId() {
         return userId_;
       }
       /**
-       * <code>sint64 userId = 1;</code>
+       * <code>int64 userId = 1;</code>
        * @param value The userId to set.
        * @return This builder for chaining.
        */
@@ -549,7 +621,7 @@ public final class ProtoUser {
         return this;
       }
       /**
-       * <code>sint64 userId = 1;</code>
+       * <code>int64 userId = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearUserId() {
@@ -559,9 +631,85 @@ public final class ProtoUser {
         return this;
       }
 
+      private java.lang.Object account_ = "";
+      /**
+       * <code>string account = 2;</code>
+       * @return The account.
+       */
+      public java.lang.String getAccount() {
+        java.lang.Object ref = account_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          account_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string account = 2;</code>
+       * @return The bytes for account.
+       */
+      public com.google.protobuf.ByteString
+          getAccountBytes() {
+        java.lang.Object ref = account_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          account_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string account = 2;</code>
+       * @param value The account to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccount(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        account_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string account = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccount() {
+        
+        account_ = getDefaultInstance().getAccount();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string account = 2;</code>
+       * @param value The bytes for account to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        account_ = value;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object password_ = "";
       /**
-       * <code>string password = 2;</code>
+       * <code>string password = 3;</code>
        * @return The password.
        */
       public java.lang.String getPassword() {
@@ -577,7 +725,7 @@ public final class ProtoUser {
         }
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>string password = 3;</code>
        * @return The bytes for password.
        */
       public com.google.protobuf.ByteString
@@ -594,7 +742,7 @@ public final class ProtoUser {
         }
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>string password = 3;</code>
        * @param value The password to set.
        * @return This builder for chaining.
        */
@@ -609,7 +757,7 @@ public final class ProtoUser {
         return this;
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>string password = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearPassword() {
@@ -619,7 +767,7 @@ public final class ProtoUser {
         return this;
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>string password = 3;</code>
        * @param value The bytes for password to set.
        * @return This builder for chaining.
        */
@@ -637,14 +785,14 @@ public final class ProtoUser {
 
       private int connectWay_ ;
       /**
-       * <code>sint32 connectWay = 3;</code>
+       * <code>int32 connectWay = 4;</code>
        * @return The connectWay.
        */
       public int getConnectWay() {
         return connectWay_;
       }
       /**
-       * <code>sint32 connectWay = 3;</code>
+       * <code>int32 connectWay = 4;</code>
        * @param value The connectWay to set.
        * @return This builder for chaining.
        */
@@ -655,7 +803,7 @@ public final class ProtoUser {
         return this;
       }
       /**
-       * <code>sint32 connectWay = 3;</code>
+       * <code>int32 connectWay = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearConnectWay() {
@@ -2915,11 +3063,12 @@ public final class ProtoUser {
   static {
     java.lang.String[] descriptorData = {
       "\n\017protoUser.proto\022\034com.ximuyi.game.serve" +
-      "r.proto\"D\n\014LoginRequest\022\016\n\006userId\030\001 \001(\022\022" +
-      "\020\n\010password\030\002 \001(\t\022\022\n\nconnectWay\030\003 \001(\021\"\017\n" +
-      "\rLoginResponse\"\017\n\rLogoutRequest\"\020\n\016Logou" +
-      "tResponse\"\022\n\020HeartBeatRequest\"(\n\021HeartBe" +
-      "atResponse\022\023\n\013currentTime\030\001 \001(\005b\006proto3"
+      "r.proto\"U\n\014LoginRequest\022\016\n\006userId\030\001 \001(\003\022" +
+      "\017\n\007account\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\022\n\nco" +
+      "nnectWay\030\004 \001(\005\"\017\n\rLoginResponse\"\017\n\rLogou" +
+      "tRequest\"\020\n\016LogoutResponse\"\022\n\020HeartBeatR" +
+      "equest\"(\n\021HeartBeatResponse\022\023\n\013currentTi" +
+      "me\030\001 \001(\005b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2930,7 +3079,7 @@ public final class ProtoUser {
     internal_static_com_ximuyi_game_server_proto_LoginRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_ximuyi_game_server_proto_LoginRequest_descriptor,
-        new java.lang.String[] { "UserId", "Password", "ConnectWay", });
+        new java.lang.String[] { "UserId", "Account", "Password", "ConnectWay", });
     internal_static_com_ximuyi_game_server_proto_LoginResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_ximuyi_game_server_proto_LoginResponse_fieldAccessorTable = new

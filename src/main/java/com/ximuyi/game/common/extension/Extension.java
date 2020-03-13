@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import com.google.protobuf.MessageLite;
 import com.ximuyi.core.coder.ResultCode;
-import com.ximuyi.core.core.CoreAccessor;
+import com.ximuyi.core.CoreAccessor;
 import com.ximuyi.core.command.Command;
 import com.ximuyi.core.command.ICommand;
 import com.ximuyi.core.command.handler.CommandHandlerUtil;

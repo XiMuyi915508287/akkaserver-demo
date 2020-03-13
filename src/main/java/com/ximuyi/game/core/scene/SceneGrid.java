@@ -1,11 +1,11 @@
 package com.ximuyi.game.core.scene;
 
-import com.ximuyi.game.core.sceneobject.ISceneObject;
-import com.ximuyi.game.core.sceneobject.ObjectType;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.ximuyi.game.core.scene.object.ISceneObject;
+import com.ximuyi.game.core.scene.object.ObjectType;
 
 public class SceneGrid implements ISceneGrid {
 
@@ -52,6 +52,7 @@ public class SceneGrid implements ISceneGrid {
 
     @Override
     public <T extends ISceneObject> Collection<T> objects(ObjectType type) {
+        //noinspection unchecked
         return (Collection<T>)map(type).values();
     }
 

@@ -1,0 +1,24 @@
+{
+	"root":{
+		"random":536,
+		"children":[
+			{
+				"weight":984,
+				"type":"True"
+			},
+			{
+				"weight":441,
+				"type":"True"
+			},
+			{
+				"weight":546,
+				"type":"True"
+			},
+			{
+				"weight":684,
+				"type":"PrintPath"
+			}
+		],
+		"type":"Selector"
+	}
+}

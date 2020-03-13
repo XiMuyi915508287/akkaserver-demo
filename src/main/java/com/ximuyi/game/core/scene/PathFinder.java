@@ -9,10 +9,10 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.ximuyi.game.common.util.Args;
-import com.ximuyi.game.common.util.RandomUtil;
+import com.ximuyi.core.utils.RandomUtil;
 import com.ximuyi.game.core.scene.geography.ISceneTerrain;
 import com.ximuyi.game.core.scene.geography.PixXYZ;
-import com.ximuyi.game.core.sceneobject.ISceneObject;
+import com.ximuyi.game.core.scene.object.ISceneObject;
 
 public class PathFinder {
     //下面两个数组，相同下标的值中，(DIR_X，DIR_Y)的值构成一个方向

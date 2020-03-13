@@ -1,0 +1,8 @@
+{
+	"root":{
+		"decorator":{
+			"type":"False"
+		},
+		"type":"Decorator"
+	}
+}

@@ -10,7 +10,7 @@ import com.google.protobuf.MessageLite;
 import com.ximuyi.core.api.login.ConnectWay;
 import com.ximuyi.core.command.CommandUtil;
 import com.ximuyi.core.command.ICommand;
-import com.ximuyi.game.common.util.RandomUtil;
+import com.ximuyi.core.utils.RandomUtil;
 import com.ximuyi.game.server.proto.ProtoCommon;
 import com.ximuyi.game.server.proto.ProtoUser;
 import io.netty.buffer.ByteBuf;
@@ -22,7 +22,7 @@ public class LoginTest {
     @Test
     public void test0() throws IOException, InterruptedException {
 
-        final int count = 20;
+        final int count = 1;
         for (int i = 0; i < count; i++) {
             Thread thread = new Thread(new Client(i + 1, i));
             TimeUnit.SECONDS.sleep(RandomUtil.nextInt(3) + 1);
@@ -63,13 +63,13 @@ public class LoginTest {
                         request = builder.setUserId(userId).setPassword("000000").setConnectWay(connectWay).build();
                         command = CommandUtil.LOGIN;
                     }
-                    else if (current < 5){
-                        request = ProtoCommon.ProEmpty.newBuilder().build();
-                        command = CommandUtil.HEART_BEAT;
-                    }
-                    else if (current < 10){
+                    else if (current % 10  == 5){
                         request = ProtoCommon.ProLong.newBuilder().setValue(0L).build();
                         command = CommandUtil.CACHE_RESPONSE;
+                    }
+                    else if (current % 10 == 0 || current < 50000){
+                        request = ProtoCommon.ProEmpty.newBuilder().build();
+                        command = CommandUtil.HEART_BEAT;
                     }
                     else {
                         request = ProtoCommon.ProEmpty.newBuilder().build();

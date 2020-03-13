@@ -1,7 +1,7 @@
 package com.ximuyi.game.core.scene;
 
-import com.ximuyi.game.core.sceneobject.ISceneObject;
-import com.ximuyi.game.core.sceneobject.ObjectType;
+import com.ximuyi.game.core.scene.object.ISceneObject;
+import com.ximuyi.game.core.scene.object.ObjectType;
 
 import java.util.Collection;
 

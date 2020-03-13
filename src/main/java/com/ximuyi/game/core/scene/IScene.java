@@ -6,10 +6,10 @@ import java.util.function.Predicate;
 
 import com.ximuyi.core.coder.ResultCode;
 import com.ximuyi.game.core.scene.geography.ISceneTerrain;
-import com.ximuyi.game.core.sceneobject.ISceneObject;
-import com.ximuyi.game.core.sceneobject.ObjectType;
+import com.ximuyi.game.core.scene.object.ISceneObject;
+import com.ximuyi.game.core.scene.object.ObjectType;
 
-public interface IScene extends ISceneSchedule {
+public interface IScene extends ISceneScheduler {
 
     long getUniqueId();
 

@@ -1,7 +1,7 @@
 package com.ximuyi.game.core.scene.notify;
 
 import com.ximuyi.game.common.util.MyScheduler;
-import com.ximuyi.core.core.CoreAccessor;
+import com.ximuyi.core.CoreAccessor;
 
 public class SceneNotifyScheduler extends MyScheduler<ISceneNotify> {
 

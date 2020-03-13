@@ -16,17 +16,19 @@ import com.ximuyi.game.core.scene.geography.ISceneTerrain;
 import com.ximuyi.game.core.scene.geography.PixXYZ;
 import com.ximuyi.game.core.scene.notify.ISceneNotify;
 import com.ximuyi.game.core.scene.notify.SceneNotify;
-import com.ximuyi.game.core.sceneobject.ISceneObject;
-import com.ximuyi.game.core.sceneobject.ObjectType;
+import com.ximuyi.game.core.scene.object.ISceneObject;
+import com.ximuyi.game.core.scene.object.ObjectType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Scene implements IScene, ISceneDispose{
     private static final Logger logger = LoggerFactory.getLogger(Scene.class);
-    private static final List<ObjectType> Priority = Arrays.asList(ObjectType.values()).stream().filter( o-> o.orderTick > 0).collect(Collectors.toList());
-    static {
-        Priority.sort(Comparator.comparingInt(o -> o.orderTick));
-    }
+
+    private static final List<ObjectType> priorities = Arrays.stream(ObjectType.values())
+            .filter(ObjectType::isScheduled)
+            .sorted(Comparator.comparingInt(ObjectType::getPriority))
+            .collect(Collectors.toList());;
+
     private final long uniqueId;
     private final int defineId;
     private final SceneOwn sceneOwn;
@@ -143,17 +145,17 @@ public class Scene implements IScene, ISceneDispose{
     }
 
     @Override
-    public void onTick() {
-        for (ObjectType type : Priority) {
+    public void onScheduled() {
+        for (ObjectType type : priorities) {
             Collection<ISceneObject> objects = objects(type);
             for (ISceneObject object : objects) {
                 try {
                     //遇到一个Bug：object 从前面的网格执行AI 进入 后面的网格，那么后面的网格还会OnTick一次
                     // 所以先把所有object取出来在执行
-                    object.onTick();
+                    object.onScheduled();
                 }
                 catch (Throwable t){
-                    logger.error("scene object[{}] ontick error.", object.getUniqueId(), t);
+                    logger.error("scene object[{}] onScheduled error.", object.getUniqueId(), t);
                 }
             }
         }

@@ -3,7 +3,7 @@ package com.ximuyi.game.core.scene;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.ximuyi.core.coder.ResultCode;
-import com.ximuyi.core.core.CoreAccessor;
+import com.ximuyi.core.CoreAccessor;
 import com.ximuyi.game.common.util.Args;
 import com.ximuyi.game.common.util.MyResultCode;
 import com.ximuyi.game.common.util.MyScheduler;

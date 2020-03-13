@@ -1,6 +1,6 @@
 package com.ximuyi.game.core.scene;
 
-import com.ximuyi.game.core.sceneobject.ISceneObject;
+import com.ximuyi.game.core.scene.object.ISceneObject;
 
 @FunctionalInterface
 public interface ISceneJoin {

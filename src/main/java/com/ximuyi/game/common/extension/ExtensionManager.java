@@ -9,7 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.protobuf.MessageLite;
 import com.ximuyi.game.server.coder.MyMessageCoder;
 import com.ximuyi.core.config.Configs;
-import com.ximuyi.core.core.CoreAccessor;
+import com.ximuyi.core.CoreAccessor;
 import com.ximuyi.core.command.handler.ICommandHandler;
 import com.ximuyi.core.command.handler.CommandHandlerUtil;
 import com.ximuyi.core.utils.YamlUtils;
@@ -20,7 +20,7 @@ public class ExtensionManager {
 
     public static void init() throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         ImmutableList.Builder<Extension> builder = ImmutableList.builder();
-        String filePath = Configs.getInstance().getFilePath("config/extensions.yaml");
+        String filePath = Configs.getInstance().getConfigFilePath("extensions.yaml");
         Map<Integer,String> configs = YamlUtils.loadConfig(filePath, Map.class);
         if (configs == null || configs.isEmpty()) {
             return;

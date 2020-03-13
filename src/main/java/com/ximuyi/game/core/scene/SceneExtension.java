@@ -1,7 +1,7 @@
 package com.ximuyi.game.core.scene;
 
 import com.ximuyi.game.common.extension.Extension;
-import com.ximuyi.game.core.sceneobject.ai.AIObjectManager;
+import com.ximuyi.game.core.scene.object.ai.AIObjectManager;
 
 public class SceneExtension extends Extension {
 
@@ -16,7 +16,7 @@ public class SceneExtension extends Extension {
         super.onInit();
         AIObjectManager.getInstance().init();
         SceneManager.getInstance().init();
-//        SceneService.getInstance().init();
+        SceneService.getInstance().init();
     }
 
 }

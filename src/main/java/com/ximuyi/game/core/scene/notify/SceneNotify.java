@@ -16,12 +16,12 @@ import com.ximuyi.game.common.extension.Extension;
 import com.ximuyi.game.common.util.Args;
 import com.ximuyi.game.core.scene.IScene;
 import com.ximuyi.game.core.scene.ISceneGrid;
-import com.ximuyi.game.core.scene.ISceneSchedule;
+import com.ximuyi.game.core.scene.ISceneScheduler;
 import com.ximuyi.game.core.scene.PathFinder;
 import com.ximuyi.game.core.scene.SceneExtension;
-import com.ximuyi.game.core.sceneobject.ISceneObject;
-import com.ximuyi.game.core.sceneobject.ObjectType;
-import com.ximuyi.game.core.sceneobject.ScenePlayer;
+import com.ximuyi.game.core.scene.object.ISceneObject;
+import com.ximuyi.game.core.scene.object.ObjectType;
+import com.ximuyi.game.core.scene.object.ScenePlayer;
 import com.ximuyi.game.server.coder.ICodeSerialize;
 import com.ximuyi.game.server.proto.ProtoScene;
 import org.slf4j.Logger;
@@ -42,26 +42,26 @@ public class SceneNotify implements ISceneNotify {
 
     @Override
     public void onJoin(ISceneObject object, ISceneGrid toGrid) {
-        onCache(aroundChange(toGrid), () -> new JoinCahce(object));
+        onCache(aroundChange(toGrid), () -> new JoinCache(object));
     }
 
     @Override
     public void onMoveTo(ISceneObject object, ISceneGrid leaveGrid, ISceneGrid toGrid) {
-        onCache(moveGetChange(leaveGrid, toGrid, true), ()-> new JoinCahce(object));
-        onCache(moveGetChange(leaveGrid, toGrid, false), ()-> new LeaveCahce(object));
-        onCache(moveNoChange(leaveGrid, toGrid), () -> new MoveCahce(object));
+        onCache(moveGetChange(leaveGrid, toGrid, true), ()-> new JoinCache(object));
+        onCache(moveGetChange(leaveGrid, toGrid, false), ()-> new LeaveCache(object));
+        onCache(moveNoChange(leaveGrid, toGrid), () -> new MoveCache(object));
     }
 
     @Override
     public void onLeave(ISceneObject object, ISceneGrid toGrid) {
-        onCache(aroundChange(toGrid), () -> new LeaveCahce(object));
+        onCache(aroundChange(toGrid), () -> new LeaveCache(object));
     }
 
     @Override
-    public void onTick() {
+    public void onScheduled() {
         for (SceneGridNotify notify : cache.values()) {
             try {
-                notify.onTick();
+                notify.onScheduled();
             } catch (Throwable t) {
                 logger.error(notify.toString(), t);
             }
@@ -73,7 +73,7 @@ public class SceneNotify implements ISceneNotify {
         SceneNotifyScheduler.getInstance().cancel(scene.getUniqueId());
     }
 
-    private <T extends NotifyCahce< ? extends MessageLite>> void onCache(List<ISceneGrid> gridList, Supplier<T> supplier) {
+    private <T extends NotifyCache< ? extends MessageLite>> void onCache(List<ISceneGrid> gridList, Supplier<T> supplier) {
         for (ISceneGrid grid : gridList) {
             SceneGridNotify notify = cache.get(grid.getUniqueId());
             notify.add(supplier.get());
@@ -236,19 +236,19 @@ public class SceneNotify implements ISceneNotify {
         System.out.println(buffer);
     }
 
-    private static class SceneGridNotify implements ICodeSerialize<ProtoScene.SceneTickResponse>, ISceneSchedule {
+    private static class SceneGridNotify implements ICodeSerialize<ProtoScene.SceneTickResponse>, ISceneScheduler {
 
         private static final ICommand Command = new Command(SceneExtension.ID, (short) 1);
 
         private final ISceneGrid grid;
-        private final ConcurrentLinkedDeque<NotifyCahce< ? extends MessageLite>> deque;
+        private final ConcurrentLinkedDeque<NotifyCache< ? extends MessageLite>> deque;
 
         public SceneGridNotify(ISceneGrid grid) {
             this.grid = grid;
             this.deque = new ConcurrentLinkedDeque<>();
         }
 
-        public void add(NotifyCahce< ? extends MessageLite> message){
+        public void add(NotifyCache< ? extends MessageLite> message){
             deque.add(message);
         }
 
@@ -257,13 +257,13 @@ public class SceneNotify implements ISceneNotify {
             ProtoScene.SceneTickResponse.Builder builder = ProtoScene.SceneTickResponse.newBuilder();
             int index = 0;
             while (!deque.isEmpty()){
-                NotifyCahce< ? extends MessageLite> message = deque.poll();
-                if (message instanceof JoinCahce){
-                    builder.addJoinScene(((JoinCahce)message).serialize(index));
-                }else if (message instanceof MoveCahce){
-                    builder.addMoveScene(((MoveCahce)message).serialize(index));
-                }else if (message instanceof LeaveCahce){
-                    builder.addLeaveScene(((LeaveCahce)message).serialize(index));
+                NotifyCache< ? extends MessageLite> message = deque.poll();
+                if (message instanceof JoinCache){
+                    builder.addJoinScene(((JoinCache)message).serialize(index));
+                }else if (message instanceof MoveCache){
+                    builder.addMoveScene(((MoveCache)message).serialize(index));
+                }else if (message instanceof LeaveCache){
+                    builder.addLeaveScene(((LeaveCache)message).serialize(index));
                 }
                 else {
                     throw new UnsupportedOperationException(message.toString());
@@ -274,7 +274,7 @@ public class SceneNotify implements ISceneNotify {
         }
 
         @Override
-        public void onTick() {
+        public void onScheduled() {
             ProtoScene.SceneTickResponse response = serialize();
             if (response == null){
                 return;

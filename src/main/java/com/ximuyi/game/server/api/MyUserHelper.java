@@ -3,6 +3,7 @@ package com.ximuyi.game.server.api;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ximuyi.core.api.login.AccountInfo;
 import com.ximuyi.core.api.login.ConnectWay;
 import com.ximuyi.core.api.login.IUserHelper;
 import com.ximuyi.core.api.login.LoginResult;
@@ -27,9 +28,9 @@ public class MyUserHelper implements IUserHelper<ProtoUser.LoginRequest> {
     }
 
     @Override
-    public long getUserId(ProtoUser.LoginRequest message) {
-        long userId = message.getUserId();
-        return userMap.containsKey(userId) ? userId : 0;
+    public AccountInfo getAccountInfo(ProtoUser.LoginRequest message) {
+        long userId = userMap.containsKey(message.getUserId()) ? message.getUserId() : 0;
+        return new AccountInfo(userId, "");
     }
 
     @Override

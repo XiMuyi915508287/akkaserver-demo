@@ -1,11 +1,11 @@
 package com.ximuyi.game.core.scene.geography;
 
-import com.ximuyi.game.common.util.RandomUtil;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+
+import com.ximuyi.core.utils.RandomUtil;
 
 public class SceneView {
 
@@ -44,7 +44,7 @@ public class SceneView {
     }
 
     public static final ScenePix[][] build(String[] map){
-        int count = 20;
+        int count = 10;
         int totalCount = count * count;
         Queue<String[]> copyList = new ArrayDeque<>();
         for (int i = 0; i < totalCount; i++){
